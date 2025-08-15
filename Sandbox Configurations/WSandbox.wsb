@@ -33,11 +33,6 @@
 	<LogonCommand>
 		<!-- The seemingly redundant command nesting makes it so the powershell window is visible when running. -->
 		<Command>powershell -executionpolicy Bypass -command "start powershell {-file C:\Users\WDAGUtilityAccount\Desktop\HostShared\SandboxStartup.ps1 -launchingSandbox}"</Command>
-		<Command>powershell -executionpolicy Bypass -command "start powershell {-file C:\Users\WDAGUtilityAccount\Desktop\HostShared\Install\Winget.ps1 -launchingSandbox}"</Command>
-		<!-- <Command>powershell -executionpolicy Bypass -command "start powershell {-file C:\Users\WDAGUtilityAccount\Desktop\HostShared\Install\Microsoft-Store.ps1 -launchingSandbox}"</Command>
-		<Command>powershell -executionpolicy Bypass -command "start powershell {-file C:\Users\WDAGUtilityAccount\Desktop\HostShared\Install\VCRedist.ps1 -launchingSandbox}"</Command> -->
-		<Command>powershell -executionpolicy Bypass -command "start powershell {-file C:\Users\WDAGUtilityAccount\Desktop\HostShared\Dark_Mode.ps1}"</Command>
-		<Command>netsh interface ipv4 set dnsservers "Ethernet" static 8.8.8.8 primary</Command>
 	</LogonCommand>
 
 </Configuration> 

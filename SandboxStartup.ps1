@@ -6,6 +6,7 @@ param(
 )
 
 #Set-PSDebug -Trace 1
+netsh interface ipv4 set dnsservers "Ethernet" static 8.8.8.8 primary
 
 # Change context menu to old style
 reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve
@@ -22,6 +23,9 @@ CiTool.exe --refresh --json | Out-Null # Refreshes policy. Use json output param
 
 # Change execution policy for powershell to allow running scripts. Normally it shows an error about a more specific policy (Process level Bypass policy), but it doesn't matter so we hide it via try/catch
 try { Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -ErrorAction Stop | Out-Null } catch {}
+
+Start-Process powershell -ArgumentList "-File", ".\Install\Winget.ps1"
+Start-Process powershell -ArgumentList "-File", ".\Theme\Dark-Mode.ps1"
 
 # -----------------------------------------------------------------------------------------
 
