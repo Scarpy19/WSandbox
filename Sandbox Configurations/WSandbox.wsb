@@ -1,0 +1,43 @@
+<Configuration>
+	
+	<!-- Basic Options -->
+	<Networking>Default</Networking> <!-- Enable or Disable network access -->
+	<ClipboardRedirection>Enable</ClipboardRedirection>  <!--  Enables or disables sharing clipboard between host & sandbox. Disable if security is paramount. -->
+	
+	<!-- Security Hardens the sandbox. The docs say this may affect ability to copy and paste, but that still seems to work. So I keep it enabled. -->
+	<ProtectedClient>Disable</ProtectedClient> 
+	
+	<!-- Options for improved security -->
+	<VideoInput>Disable</VideoInput>
+	<AudioInput>Disable</AudioInput>
+	<PrinterRedirection>Disable</PrinterRedirection>
+	<vGPU>Disable</vGPU>
+
+	
+	<!--  Map a folder on your main system to appear within the sandbox  -->
+	<MappedFolders>
+		<!-- Desktop "HostShared" Folder. Put startup script and other useful scripts into. -->
+		<MappedFolder>
+		  <HostFolder>E:\WSandbox</HostFolder> <!-- Update the HostFolder path to the one on your real computer that will be shared with the Sandbox -->
+		  <SandboxFolder>C:\Users\WDAGUtilityAccount\Desktop\HostShared</SandboxFolder> <!-- Don't change this, the startup script uses hardcoded paths -->
+		  <ReadOnly>false</ReadOnly> <!-- If Readonly is True, the sandbox can't change anything the folder (recommended) -->
+		</MappedFolder>
+		<MappedFolder>
+            <HostFolder>D:\Users\Scarpy\Downloads</HostFolder>
+            <SandboxFolder>C:\Users\WDAGUtilityAccount\Desktop\Downloads</SandboxFolder>
+            <ReadOnly>true</ReadOnly>
+        </MappedFolder>
+	</MappedFolders>
+
+	<!-- Run the powershell script from the mapped folder -->
+	<LogonCommand>
+		<!-- The seemingly redundant command nesting makes it so the powershell window is visible when running. -->
+		<Command>powershell -executionpolicy Bypass -command "start powershell {-file C:\Users\WDAGUtilityAccount\Desktop\HostShared\SandboxStartup.ps1 -launchingSandbox}"</Command>
+		<Command>powershell -executionpolicy Bypass -command "start powershell {-file C:\Users\WDAGUtilityAccount\Desktop\HostShared\Install\Winget.ps1 -launchingSandbox}"</Command>
+		<!-- <Command>powershell -executionpolicy Bypass -command "start powershell {-file C:\Users\WDAGUtilityAccount\Desktop\HostShared\Install\Microsoft-Store.ps1 -launchingSandbox}"</Command>
+		<Command>powershell -executionpolicy Bypass -command "start powershell {-file C:\Users\WDAGUtilityAccount\Desktop\HostShared\Install\VCRedist.ps1 -launchingSandbox}"</Command> -->
+		<Command>powershell -executionpolicy Bypass -command "start powershell {-file C:\Users\WDAGUtilityAccount\Desktop\HostShared\Dark_Mode.ps1}"</Command>
+		<Command>netsh interface ipv4 set dnsservers "Ethernet" static 8.8.8.8 primary</Command>
+	</LogonCommand>
+
+</Configuration> 
