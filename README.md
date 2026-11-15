@@ -88,6 +88,7 @@ Tip: keep cache folders populated from previous successful runs/downloads (scrip
 ## Quality / CI
 
 - `.github/workflows/lint.yml` runs [PSScriptAnalyzer](https://github.com/PowerShell/PSScriptAnalyzer) (`Warning`/`Error`) on PowerShell scripts.
+- `SandboxStartup.ps1` tolerates missing `CiTool.exe` on sandbox images/builds where it is unavailable.
 - `.github/workflows/ai-sandbox-windows.yml` provides upstream's temporary GitHub-hosted Windows sandbox/tunnel workflow (requires repository secrets/inputs as defined in the workflow).
 
 Run lint locally (PowerShell):

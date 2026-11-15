@@ -64,7 +64,13 @@ reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Taskba
 # Fix for slow MSI package install.
 # See: https://github.com/microsoft/Windows-Sandbox/issues/68#issuecomment-2754867968
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\CI\Policy" /v "VerifiedAndReputablePolicyState" /t REG_DWORD /d 0 /f | Out-Null
-CiTool.exe --refresh --json | Out-Null
+$ciTool = Get-Command CiTool.exe -ErrorAction SilentlyContinue
+if (-not $ciTool) { $ciTool = Get-Command "$env:SystemRoot\System32\CiTool.exe" -ErrorAction SilentlyContinue }
+if ($ciTool) {
+    try { & $ciTool.Source --refresh --json | Out-Null } catch { Write-Host "Warning: CiTool refresh failed: $($_.Exception.Message)" -ForegroundColor Yellow }
+} else {
+    Write-Host "Note: CiTool.exe not found; skipping CI policy refresh." -ForegroundColor Yellow
+}
 
 # Allow running scripts
 try { Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -ErrorAction Stop | Out-Null } catch {}
