@@ -1,0 +1,42 @@
+name: Lint
+
+on:
+  push:
+    paths:
+      - '**/*.ps1'
+      - '.github/workflows/lint.yml'
+  pull_request:
+    paths:
+      - '**/*.ps1'
+      - '.github/workflows/lint.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  psscriptanalyzer:
+    name: PSScriptAnalyzer
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install and run PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module PSScriptAnalyzer -Scope CurrentUser -Force
+          $files = Get-ChildItem -Recurse -Filter *.ps1 -File | Where-Object { $_.FullName -notmatch '\\\.git\\' }
+          if (-not $files) { Write-Host 'No PowerShell files found.'; exit 0 }
+          $results = @()
+          foreach ($f in $files) {
+            $results += Invoke-ScriptAnalyzer -Path $f.FullName -Severity Warning,Error
+          }
+          if ($results) {
+            $results | Format-Table -AutoSize
+            Write-Error "PSScriptAnalyzer found $($results.Count) issue(s)."
+            exit 1
+          }
+          Write-Host "PSScriptAnalyzer: no Warning/Error issues found in $($files.Count) file(s)."
