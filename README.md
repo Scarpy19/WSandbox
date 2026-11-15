@@ -1,4 +1,4 @@
-# Scripts & Tools for Windows Sandbox
+# Thio's Scripts & Tools for Windows Sandbox
 Various useful scripts for use within Windows Sandbox
 
 ## 📥 Installer Scripts
@@ -6,15 +6,25 @@ Various useful scripts for use within Windows Sandbox
 PowerShell scripts that can install apps or components not normally included in the Sandbox
 
 - `Install-Winget.ps1`: Fetches necessary files and dependencies from Microsoft's [winget-cli](https://github.com/microsoft/winget-cli) repo, and installs it
+- `Install VC Redist.ps1`: Installs the latest Microsoft Visual C++ Redistributables, which are commonly required by other software.
 - `Install-Microsoft-Store.ps1`: Installs the Microsoft Store via the Windows Update APIs
   - Unlike other similar scripts, mine does NOT use any third party APIs like UUP Dump or RG-Adguard at all
   - (All web requests go directly to Microsoft servers. Even those fetching the download URLs in the first place)
-- `Install VC Redist.ps1`: Installs the latest Microsoft Visual C++ Redistributables, which are commonly required by other software.
+- `Install-Store-Apps.ps1`: Search, download, and install apps from the Microsoft Store, without the MS Store needing to be installed
+  - Can also search the Microsoft Update Catalog.
+  - Uses the Windows Update APIs with NO third party APIs. All requests go directly to Microsoft servers.
+  - Can be run with parameters to auto install a specific app. Run without parameters to use interactively.
+  - Note: Apps with their own installer (IDs starting with XP) can't be fetched this way.
 
 ## 🛠️ General Scripts
 
 - `Set Theme Dark Mode.ps1` - Sets the Sandbox to Dark theme and also changes to a dark wallpaper
 - `Set Theme Light Mode.ps1` - Restores the Light theme. Doesn't currently change the wallpaper back though.
+- `Start-Agent-Tunnel.ps1` - Sets up an instant, disposable SSH connection into the sandbox without needing to open any ports. It also generates a connection instructions zip file you can give right to your agent.
+
+## External Tools
+- `Create-WSB-Copy-Files.bat` - Drag file(s) onto this, and it will create a .wsb config where the sandbox will launch with those files pre-copied into it, WITHOUT needing to map a folder.
+  - Has configurable options, including whether to auto-launch a .ps1 script post-launch, if there is one
 
 ---------
 
@@ -48,4 +58,5 @@ It is written assuming it will be run from _within_ the sandbox, so to automatic
 3. Update any other options to your liking in the `.wsb` file, such as amount of RAM.
 4. Launch Sandbox using the configuration by double clicking `MyDefaultSandbox.wsb`. It will map the folder to the Desktop as a folder called `HostShared`, and run the script automatically. You can also add other scripts and things to the shared folder you may want to run manually.
 
-
+### More Personal Preference Tweaks For Your Startup Script
+For other commands and registry tweaks that are more just personal preference, I've created a [Wiki page](https://github.com/ThioJoe/Windows-Sandbox-Tools/wiki/More-Optional-Registry-Tweaks)
