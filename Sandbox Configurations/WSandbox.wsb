@@ -28,8 +28,8 @@
 	</MappedFolders>
 
 	<LogonCommand>
-		<!-- Visible PowerShell window. Configure auto-actions via SandboxStartup.ps1 parameters. -->
-		<Command>powershell -executionpolicy Bypass -command "start powershell {-NoExit -File C:\Users\WDAGUtilityAccount\Desktop\HostShared\SandboxStartup.ps1 -launchingSandbox}"</Command>
+		<!-- Visible PowerShell window. Runs SandboxStartup.ps1 automatically on sandbox launch. -->
+		<Command>powershell -executionpolicy Bypass -command "start powershell {-NoExit -File C:\Users\WDAGUtilityAccount\Desktop\HostShared\SandboxStartup.ps1 -launchingSandbox -ApplyDarkTheme}"</Command>
 
 		<!-- Examples:
 		Auto-install Winget and apply dark theme:
